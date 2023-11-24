@@ -16,7 +16,7 @@
 ### Method 2: Auto update secrets every time you add a new repository (Recommended)
   1. Install (if you haven't) **GitHub's CLI** [Installing manual](https://github.com/cli/cli#installation)
   2. 
-``` bash
+```  bash
 #!/bin/bash
 
 # Set your GitHub username
@@ -48,13 +48,14 @@ echo "Secrets added to repositories successfully."
 
 ```
   Save the script to a file (e.g., `add_secrets.sh`) and make sure to replace `your_username`, `your_secret_name` and the repository names in the `REPOSITORIES` array with your actual GitHub username, secret name, and repository names. As `your_secret_value` use **your personal access token**, generated in previous step.
+
   3. Double-click the file to execute the srcipt.
 
   > [!WARNING]
-  > Delete the file (`add_secrets.sh` in our case) because of sensitive data is represented inside (**personal access token**).
+  > Delete the file (`add_secrets.sh` in our case) after you've successfuly added secrets, because there is sensitive data is represented inside the file (**personal access token**).
 
   > [!NOTE]
-  > You will have to repeat step 1 and 2.2 every time you need to add a new repository (Unlike you haven't deleted `add_secrets.sh` or if you saved **your personal access token** in safe place. In that case you'll have to repeat only step 2.2 or 2.1).
+  > You will have to repeat step **1** and **2.2** every time you need to add a new repository (Unlike you ~~haven't deleted `add_secrets.sh`~~ or if you saved **your personal access token** in safe place. In that case you'll have to repeat only step **2.2** or **2.1**).
 
 ## 3 - Create a file
   Create a file  named `.github/workflows/main.yml` in your repository (`main` can be any name of file)
