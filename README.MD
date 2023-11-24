@@ -1,19 +1,66 @@
 # Manual: How to add new repository?
 
 ## 1 - Create your personal access token
-[Creating a personal access token](https://docs.github.com/en/enterprise-server@3.6/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token)
-> [!IMPORTANT]
-> Check at least a **repo** scope
+  [Creating a personal access token](https://docs.github.com/en/enterprise-server@3.6/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token)
+  > [!IMPORTANT]
+  > Check that at least a **repo** scope is selected!
 
 ## 2 - Add a secret for your repository
-[Adding secrets for a repository](https://docs.github.com/en/codespaces/managing-codespaces-for-your-organization/managing-secrets-for-your-repository-and-organization-for-github-codespaces#adding-secrets-for-a-repository)
+
+### Method 1: Manual setting secrets
+  [Adding secrets for a repository](https://docs.github.com/en/codespaces/managing-codespaces-for-your-organization/managing-secrets-for-your-repository-and-organization-for-github-codespaces#adding-secrets-for-a-repository)
+
+  > [!NOTE]
+  > If you will want to add new repositories you have to save **your personal access token** in some safe and secured place.
+
+### Method 2: Auto update secrets every time you add a new repository (Recommended)
+  1. Install (if you haven't) **GitHub's CLI** [Installing manual](https://github.com/cli/cli#installation)
+  2. ``` bash
+#!/bin/bash
+
+# Set your GitHub username
+USERNAME="your_username"
+
+# Set the secret name
+SECRET_NAME="your_secret_name"
+
+# Set the value of the secret
+SECRET_VALUE="your_secret_value"
+
+# List of repositories (replace with your repository names)
+REPOSITORIES=("repo1" "repo2" "repo3")
+
+# Loop through repositories and add the secret
+for REPO in "${REPOSITORIES[@]}"
+do
+  # Set the repository URL
+  REPO_URL="https://github.com/$USERNAME/$REPO"
+
+  # Add the secret to the repository
+  gh secret set -R "$REPO_URL" "$SECRET_NAME" -b"$SECRET_VALUE"
+
+  # Add a delay (adjust as needed to avoid rate limits)
+  sleep 1
+done
+
+echo "Secrets added to repositories successfully."
+
+  ```
+  Save the script to a file (e.g., `add_secrets.sh`) and make sure to replace `your_username`, `your_secret_name` and the repository names in the `REPOSITORIES` array with your actual GitHub username, secret name, and repository names. As `your_secret_value` use **your personal access token**, generated in previous step.
+  3. Double-click the file to execute the srcipt.
+
+  > [!WARNING]
+  > Delete the file (`add_secrets.sh` in our case) because of sensitive data is represented inside (**personal access token**).
+
+  > [!NOTE]
+  > You will have to repeat step 1 and 2.2 every time you need to add a new repository (Unlike you haven't deleted `add_secrets.sh` or if you saved **your personal access token** in safe place. In that case you'll have to repeat only step 2.2 or 2.1).
 
 ## 3 - Create a file
-Create a file  named `.github/workflows/main.yml` in your repository (`main` can be any name of file)
+  Create a file  named `.github/workflows/main.yml` in your repository (`main` can be any name of file)
 
 ## 4 - Code
-Paste folowing code inside recently created `main.yml` file:
-``` yaml
+  Paste folowing code inside recently created `main.yml` file:
+  ``` yaml
 name: Copy ---YourRepoName Repository 
 
 on:
@@ -57,9 +104,9 @@ jobs:
 #          commit-message: # optional, default is Update from ORIGIN_COMMIT
           # [Optional] The directory to wipe and replace in the target repository
           target-directory: projects/---YourRepoName # optional, default is .
-```
-> [!IMPORTANT]
-> Replace all values marked `---` to your values.
+  ```
+  > [!IMPORTANT]
+  > Replace all values marked by `---` prefix with your values.
 
 ## 5 - Done!
 
