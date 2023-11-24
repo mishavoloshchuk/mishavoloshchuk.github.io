@@ -15,7 +15,8 @@
 
 ### Method 2: Auto update secrets every time you add a new repository (Recommended)
   1. Install (if you haven't) **GitHub's CLI** [Installing manual](https://github.com/cli/cli#installation)
-  2. ``` bash
+  2. 
+``` bash
 #!/bin/bash
 
 # Set your GitHub username
@@ -45,7 +46,7 @@ done
 
 echo "Secrets added to repositories successfully."
 
-  ```
+```
   Save the script to a file (e.g., `add_secrets.sh`) and make sure to replace `your_username`, `your_secret_name` and the repository names in the `REPOSITORIES` array with your actual GitHub username, secret name, and repository names. As `your_secret_value` use **your personal access token**, generated in previous step.
   3. Double-click the file to execute the srcipt.
 
