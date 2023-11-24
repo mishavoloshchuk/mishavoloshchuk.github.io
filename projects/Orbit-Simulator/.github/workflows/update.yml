@@ -1,9 +1,9 @@
-name: Copy Theremin Repository 
+name: Copy Orbit-Simulator Repository 
 
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 jobs:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Theremin Repository
+      - name: Checkout Orbit-Simulator Repository
         uses: actions/checkout@v2
 
       - name: Push directory to another repository directory
@@ -39,4 +39,4 @@ jobs:
           # [Optional] commit message for the output repository. ORIGIN_COMMIT is replaced by the URL@commit in the origin repo
 #          commit-message: # optional, default is Update from ORIGIN_COMMIT
           # [Optional] The directory to wipe and replace in the target repository
-          target-directory: projects/Theremin # optional, default is .
+          target-directory: projects/Orbit-Simulator # optional, default is .
