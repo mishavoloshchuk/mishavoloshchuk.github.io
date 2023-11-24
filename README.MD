@@ -8,11 +8,13 @@
 ## 2 - Add a secret for your repository
 [Adding secrets for a repository](https://docs.github.com/en/codespaces/managing-codespaces-for-your-organization/managing-secrets-for-your-repository-and-organization-for-github-codespaces#adding-secrets-for-a-repository)
 
-## 3 - Create a file `.github/workflows/main.yml` in your repository (`main` can be any name of file).
+## 3 - Create a file
+Create a file  named `.github/workflows/main.yml` in your repository (`main` can be any name of file)
 
-## 4 - Paste folowing code inside recently created `main.yml` file:
+## 4 - Code
+Paste folowing code inside recently created `main.yml` file:
 ``` yaml
-name: Copy YourRepoName Repository 
+name: Copy ---YourRepoName Repository 
 
 on:
   push:
@@ -57,6 +59,9 @@ jobs:
           target-directory: projects/---YourRepoName # optional, default is .
 ```
 > [!IMPORTANT]
-> Replace all values marked `---` to your.
+> Replace all values marked `---` to your values.
 
 ## 5 - Done!
+
+> [!CAUTION]
+> The action will delete `target-directory: projects/---YourRepoName` folder before every copying.
