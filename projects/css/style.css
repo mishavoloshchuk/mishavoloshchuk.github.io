@@ -163,6 +163,14 @@ body {
 	opacity: 0.3;
 	background: linear-gradient(90deg, #4A4CA3 10%, rgba(0,0,0,0) 70%);
 }
+.screen {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: 100wh;
+	height: 100svh;
+}
 
 @keyframes pulse {
 	from {

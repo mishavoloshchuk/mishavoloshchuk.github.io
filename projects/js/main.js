@@ -15,7 +15,7 @@ var pieceRadius = 4,
 
 var gallerySlideNum = 0;
 var slidesColors = ['#000000', '#4A4CA3', '#2661A2', '#F5CA46', '#B844A9', '#66DDAA', '#222222'];
-var slidesURL = ['/Orbit-Simulator', '#', '#', '#', '#', '#', '/Theremin'];
+var slidesURL = ['Orbit-Simulator/', '#', '#', '#', '#', '#', 'Theremin/'];
 
 let slides = [
 	{
