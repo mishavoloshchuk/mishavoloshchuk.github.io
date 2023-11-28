@@ -1,0 +1,3 @@
+[submodule "projects/Reaction-Time-Game"]
+	path = projects/Reaction-Time-Game
+	url = https://github.com/mishavoloshchuk/Reaction-Time-Game.git
