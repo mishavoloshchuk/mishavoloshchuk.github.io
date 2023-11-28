@@ -20,26 +20,19 @@ jobs:
           API_TOKEN_GITHUB: '${{ secrets.API_TOKEN_GITHUB }}'
         # You may pin to the exact commit or the version.
         # uses: XenonMolecule/github-action-push-to-another-repository@de389add933e78b040fd9274822bd171ac87b26e
-        uses: lubu12/copy-files-to-repository@v1
+        uses: datalbry/copy_folder_to_another_repo_action@1.0.0
         with:
-          source-files: '.'
-          destination-username: 'mishavoloshchuk'
-          destination-repository: 'mishavoloshchuk.github.io'
-          destination-directory: 'projects/Reaction-Time-Game'
-          commit-email: 'voloshchuk123@gmail.com'
+          # Source directory from the origin directory
+          source_folder: '.'
+          # Destination repository
+          destination_repo: 'mishavoloshchuk/mishavoloshchuk.github.io'
+          # [Optional] The directory to wipe and replace in the target repository
+          destination_folder: 'projects/Reaction-Time-Game' # optional, default is .
+          # Email for the git commit
+          user_email: 'voloshchuk123@gmail.com'
+          # Name of the destination
+          user_name: 'mishavoloshchuk'
           # [Optional] set target branch name for the destination repository. Defaults to "master" for historical reasons
-          destination-branch: 'main' # optional, default is master
-#           # Source directory from the origin directory
-#           source_file: '.'
-#           # Destination repository
-#           destination_repo: 'mishavoloshchuk/mishavoloshchuk.github.io'
-#           # [Optional] The directory to wipe and replace in the target repository
-#           destination_folder: 'projects/Reaction-Time-Game' # optional, default is .
-#           # Email for the git commit
-#           user_email: 'voloshchuk123@gmail.com'
-#           # Name of the destination
-#           user_name: 'mishavoloshchuk'
-#           # [Optional] set target branch name for the destination repository. Defaults to "master" for historical reasons
-#           destination_branch: 'main' # optional, default is master
-#           # [Optional] commit message for the output repository. ORIGIN_COMMIT is replaced by the URL@commit in the origin repo
-# #          commit_msg: # optional, default is Update from ORIGIN_COMMIT
+          destination_branch: 'main' # optional, default is master
+          # [Optional] commit message for the output repository. ORIGIN_COMMIT is replaced by the URL@commit in the origin repo
+#          commit_msg: # optional, default is Update from ORIGIN_COMMIT
