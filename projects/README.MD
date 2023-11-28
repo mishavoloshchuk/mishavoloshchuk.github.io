@@ -110,7 +110,7 @@ jobs:
           # Source directory from the origin directory
           source_folder: '.'
           # Destination repository
-          destination_repo: 'mishavoloshchuk/---YourRepoName'
+          destination_repo: 'mishavoloshchuk/mishavoloshchuk.github.io'
           # [Optional] The directory to wipe and replace in the target repository
           destination_folder: 'projects/---YourRepoName' # optional, default is .
           # Email for the git commit
