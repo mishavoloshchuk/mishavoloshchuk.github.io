@@ -87,7 +87,7 @@ name: Copy ---YourRepoName Repository
 on:
   push:
     branches:
-      - ---master # Change if you want to copy another branch of your repository
+      - ---main # Change if you want to copy another branch of your repository
   workflow_dispatch:
 
 jobs:
@@ -101,7 +101,7 @@ jobs:
       - name: Push directory to another repository directory
         # GitHub access token
         env:
-          API_TOKEN_GITHUB: '${{ secrets.---API_TOKEN_GITHUB }}'
+          API_TOKEN_GITHUB: '${{ secrets.API_TOKEN_GITHUB }}'
         # You may pin to the exact commit or the version.
         # uses: notpresident35/copy_large_folder_to_another_repo_action@80f614525ae4ffb75699ae3f543f26979353924c
         uses: datalbry/copy_folder_to_another_repo_action@1.0.0
