@@ -103,7 +103,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: '${{ secrets.API_TOKEN_GITHUB }}'
         # Modificated XenonMolecule/github-action-push-to-another-repository
-        uses: mishavoloshchuk/github-action-push-to-another-repository@0.1.11
+        uses: mishavoloshchuk/github-action-push-to-another-repository@0.2.0
         with:
           # Comment line to use default value if there is default value
           # Source directory from the origin directory
