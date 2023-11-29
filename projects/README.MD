@@ -102,24 +102,30 @@ jobs:
         # GitHub access token
         env:
           API_TOKEN_GITHUB: '${{ secrets.API_TOKEN_GITHUB }}'
-        # You may pin to the exact commit or the version.
-        uses: datalbry/copy_folder_to_another_repo_action@1.0.0
+        # Modificated XenonMolecule/github-action-push-to-another-repository
+        uses: mishavoloshchuk/github-action-push-to-another-repository@0.1.11
         with:
           # Comment line to use default value if there is default value
           # Source directory from the origin directory
-          source_folder: '.'
+          source-directory: '.'
+          # Name of the destination username/organization
+          destination-github-username: 'mishavoloshchuk'
           # Destination repository
-          destination_repo: 'mishavoloshchuk/mishavoloshchuk.github.io'
-          # [Optional] The directory to wipe and replace in the target repository
-          destination_folder: 'projects/---YourRepoName' # optional, default is .
+          destination-repository-name: 'mishavoloshchuk.github.io'
           # Email for the git commit
-          user_email: 'voloshchuk123@gmail.com'
-          # Name of the destination
-          user_name: 'mishavoloshchuk'
+          user-email: 'actions@github.com'
+          # [Optional] Name for the git commit. Defaults to the destination username/organization name
+          user-name: 'actions_bot' # optional, default is 
+          # [Optional] Username/organization for the destination repository
+          destination-repository-username: 'mishavoloshchuk' # optional, default is 
           # [Optional] set target branch name for the destination repository. Defaults to "master" for historical reasons
-          destination_branch: 'main' # optional, default is master
+          target-branch: 'main' # Set the destination branch (default is master)
           # [Optional] commit message for the output repository. ORIGIN_COMMIT is replaced by the URL@commit in the origin repo
-#          commit_msg: # optional, default is Update from ORIGIN_COMMIT
+#          commit-message: Auto repository copy # optional, default is Update from ORIGIN_COMMIT
+          # [Optional] The directory to wipe and replace in the target repository
+          target-directory: 'projects/---YourRepoName' # optional, default is .
+
+
   ```
   > [!IMPORTANT]
   > Replace all values marked by `---` prefix with your values.
