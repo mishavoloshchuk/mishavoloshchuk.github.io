@@ -1,4 +1,4 @@
-name: Copy moneycouner Repository 
+name: Copy moneycounter Repository 
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout moneycouner Repository
+      - name: Checkout moneycounter Repository
         uses: actions/checkout@v2
 
       - name: Push directory to another repository directory
