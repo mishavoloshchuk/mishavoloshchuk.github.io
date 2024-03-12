@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link href="/your-path-to-uicons/css/uicons-[your-style].css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Template -->
+        <template id="skill_template">
+            <span class="skill">...</span>
+        </template>
+        <!-- Template -->
+        <template id="candidate_template">
+            <div class="candidate-wrapper">
+                <div class="candidate">
+                    <div class="container direction-row">
+                        <img src="icons/businessman.png" alt="Кандидат">
+                        <div class="container candidate-info" style="position: relative;">
+                            <h2 class="candidate_name" style="position: relative;">Іваненко Іван</h2>
+                            <span>Вік: <span class="candidate_age"></span></span>
+                            <span>Навички: </span><span class="skills">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Main screen -->
+        <section class="screen-center" id="main_screen" animstate="hidden" animationDuration="900">
+            <div class="container">
+                <div class="custom-text-area container">
+                    <div class="container direction-row flex-wrap">
+                        <h2>Текст вакансії</h2>
+                        <button class="button round-depth-1 flex-grow" onclick="resume_text.innerHTML = '';">Очистити</button>
+                        <button class="button round-depth-1 flex-grow" onclick="pasteClipboardIn(resume_text);">Вставити</button>
+                        <button class="button round-depth-1 flex-grow" onclick="process()">Перевірити</button>
+                    </div>
+                    <div id="resume_text" class="editable_area" contenteditable="true" oninput="resumeSelection.removeAll()">React, HTML, sdaklgf; React Native HTML,sd JS, react, es5</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Candidates screen -->
+        <section class="screen-center" id="candidates_screen" animstate="hidden" animationDuration="900">
+            <div class="container">
+                <div class="candidates container" id="candidates_list">
+                    <!-- Candidates -->
+                </div>
+                <div class="container direction-row flex-wrap">
+                    <button class="button" onclick="ScreenSwitcher.setActive(main_screen)">На головну</button>
+                    <button class="button" onclick="showModal('add_candidate_modal')">Додати кандидата</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Registration modal -->
+    <div class="modal" id="add_candidate_modal" animstate="hidden" animationDuration="300">
+        <div class="modal_wrapper">
+            <!-- Close button -->
+            <div class="close_side_menu_cross" onclick="hideModal(this.closest('.modal').getAttribute('id'));">⨉</div>
+
+        <div class="tint" onclick="hideModal('add_candidate_modal')"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
