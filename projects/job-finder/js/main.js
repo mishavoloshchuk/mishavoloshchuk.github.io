@@ -59,13 +59,29 @@ class Candidate {
         // Очищення виділення попередніх навичок
         this.skills.forEach(skill => skill.setMatched(false));
         
-
         // Виділення навичок, які підходять по вакансії
         matchedSkills.forEach(matchedSkill => {
             const skill = this.skills.find(skill => skill.tech == matchedSkill);
             if (skill) {
                 skill.setMatched(true);
             }
+        });
+    }
+
+    setUnmatchedSkills(requiredSkills) {
+        // Отримання навичок кандидата
+        const candidateSkills = this.skills.map(skill => skill.tech);
+
+        // Знаходження навичок, які не відповідають навичкам кандидата
+        const unmatchedSkills = requiredSkills.filter(skill => !candidateSkills.includes(skill));
+
+        // Відображення навичок, які не відповідають навичкам кандидата з відповідними стилями
+        unmatchedSkills.forEach(skill => {
+            const unmatchedSkillElement = document.createElement('span');
+            unmatchedSkillElement.textContent = skill.getMainName();
+            unmatchedSkillElement.classList.add('skill');
+            unmatchedSkillElement.classList.add('unmatched-skill'); // Додайте стилі для невідповідних навичок
+            this.skillsElem.appendChild(unmatchedSkillElement);
         });
     }
     
@@ -366,12 +382,16 @@ function process() {
 
     const text = elem.innerHTML;
     const findTechResult = technologies.findTechInText(text);
-    const foundTechs = findTechResult.map(range => range.tech);
+    const foundTechs = [];
+
+    for (let result of findTechResult) {
+        if (!foundTechs.includes(result.tech)) {
+            foundTechs.push(result.tech);
+        }
+    }
 
     for (let range of findTechResult) {
         resumeSelection.select(range.start, range.end, "white", "var(--second-color)");
-        
-        foundTechs.push(range.tech);
     }
 
     const rating = Rating.rate(foundTechs);
@@ -380,6 +400,7 @@ function process() {
     // Оновлення відображення кандидатів та виділення навичок
     rating.forEach(rating => {
         rating.candidate.setSkillsMatched(foundTechs);
+        rating.candidate.setUnmatchedSkills(foundTechs);
         rating.candidate.showCandidate();
     });
     

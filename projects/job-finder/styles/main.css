@@ -186,6 +186,10 @@ section[animState = "hiding"] {
     background-color: greenyellow !important;
     color: black !important;
 }
+.unmatched-skill {
+    background-color: red !important;
+    color: white !important;
+}
 
 .custom-text-area {
     width: 100%;
