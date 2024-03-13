@@ -17,35 +17,18 @@ Element.prototype.hide = function (){
 }
 
 class Candidate {
-    static list = document.getElementById('candidates_list');
-    
     skills = [];
 
     constructor({name, age, skills}) {
-        this.element = document.getElementById('candidate_template')
-        .content.cloneNode(true).firstElementChild;
+        this.name = name;
+        this.age = age;
 
-        this.skillsElem = this.element.querySelector('.skills');
-
-        this.setName(name);
-        this.setAge(age);
         skills.forEach(skillName => this.addSkill(skillName));
-
-        this.showCandidate();
-    }
-    
-    setName(name) {
-        this.element.querySelector('.candidate_name').innerHTML = name;
-    }
-    
-    setAge(age) {
-        this.element.querySelector('.candidate_age').innerHTML = age;
     }
 
     addSkill(tech) {
         const skill = new CandidatesSkill(tech);
         this.skills.push(skill);
-        this.skillsElem.appendChild(skill.element);
     }
 
     removeSkill(skill) {
@@ -54,14 +37,54 @@ class Candidate {
         this.skillsElem.removeChild(skill.element);
         return this.skills.splice(skillId, 1);
     }
+}
+
+class CandidateView {
+    static list = document.getElementById('candidates_list');
+
+    constructor(candidate) {
+        this.candidate = candidate;
+        this.element = document.getElementById('candidate_template')
+            .content.cloneNode(true).firstElementChild;
+
+        this.skillsElem = this.element.querySelector('.skills');
+
+        this.setName(candidate.name);
+        this.setAge(candidate.age);
+        this.renderSkills();
+    }
+
+    setName(name) {
+        this.element.querySelector('.candidate_name').innerHTML = name;
+    }
+
+    setAge(age) {
+        this.element.querySelector('.candidate_age').innerHTML = age;
+    }
+
+    renderSkills() {
+        this.candidate.skills.forEach(skill => {
+            const skillElement = skill.element;
+            skillElement.textContent = skill.tech.getMainName();
+            this.skillsElem.appendChild(skillElement);
+        });
+    }
+
+    showCandidate() {
+        CandidateView.list.appendChild(this.element);
+    }
+
+    hideCandidate() {
+        CandidateView.list.removeChild(this.element);
+    }
 
     setSkillsMatched(matchedSkills) {
         // Очищення виділення попередніх навичок
-        this.skills.forEach(skill => skill.setMatched(false));
+        this.candidate.skills.forEach(skill => skill.setMatched(false));
         
         // Виділення навичок, які підходять по вакансії
         matchedSkills.forEach(matchedSkill => {
-            const skill = this.skills.find(skill => skill.tech == matchedSkill);
+            const skill = this.candidate.skills.find(skill => skill.tech == matchedSkill);
             if (skill) {
                 skill.setMatched(true);
             }
@@ -70,7 +93,7 @@ class Candidate {
 
     setUnmatchedSkills(requiredSkills) {
         // Отримання навичок кандидата
-        const candidateSkills = this.skills.map(skill => skill.tech);
+        const candidateSkills = this.candidate.skills.map(skill => skill.tech);
 
         // Знаходження навичок, які не відповідають навичкам кандидата
         const unmatchedSkills = requiredSkills.filter(skill => !candidateSkills.includes(skill));
@@ -83,14 +106,6 @@ class Candidate {
             unmatchedSkillElement.classList.add('unmatched-skill'); // Додайте стилі для невідповідних навичок
             this.skillsElem.appendChild(unmatchedSkillElement);
         });
-    }
-    
-    showCandidate() {
-        Candidate.list.appendChild(this.element);
-    }
-
-    hideCandidate() {
-        Candidate.list.removeChild(this.element);
     }
 }
 
@@ -168,7 +183,7 @@ class Technologies {
 }
 
 class Rating {
-    static rate(foundTechs) {
+    static rate(foundTechs, candidates = candidates) {
         const candidatesRating = new Array(candidates.length).fill(0);
         for (let indx in candidates) {
             const candidate = candidates[indx];
@@ -177,7 +192,7 @@ class Rating {
             }
         }
         
-        return candidatesRating.map((rating, indx) => {return {candidate: candidates[indx], rating: rating}});
+        return candidatesRating;
     }
 }
 
@@ -232,6 +247,8 @@ const candidates = [
     new Candidate({name: "Іван Іваненко", age: 23, skills: [technologies.technologies[0]]}),
     // new Candidate({name: "Іван Іваненко", age: 22, skills: ["HTML", "CSS", "JavaScript", "React"]}),
 ];
+
+const candidatesView = candidates.map(c => new CandidateView(c));
 
 function showModal (modalId){
 	const modalElement = getById(modalId);
@@ -394,22 +411,22 @@ function process() {
         resumeSelection.select(range.start, range.end, "white", "var(--second-color)");
     }
 
-    const rating = Rating.rate(foundTechs);
-    rating.sort((a, b) => b.rating - a.rating);
-    
-    // Оновлення відображення кандидатів та виділення навичок
-    rating.forEach(rating => {
-        rating.candidate.setSkillsMatched(foundTechs);
-        rating.candidate.setUnmatchedSkills(foundTechs);
-        rating.candidate.showCandidate();
+    const ratingResult = Rating.rate(foundTechs, candidates).map((rating, indx) => {return {rating: rating, view: candidatesView[indx]}});
+
+    ratingResult.sort((a, b) => b.rating - a.rating);
+
+    ratingResult.forEach(({view}) => {
+        view.showCandidate();
+        view.setSkillsMatched(foundTechs);
+        view.setUnmatchedSkills(foundTechs);
     });
     
     ScreenSwitcher.setActive(getById("candidates_screen"));
     // candidateSelection2.select(0, 6);
 }
 
-const candidateSelection = new TextSelector(candidates[1].element.querySelector('h2'));
+const candidateSelection = new TextSelector(candidatesView[1].element.querySelector('h2'));
 // candidateSelection.select(0, 6);
 
-const candidateSelection2 = new TextSelector2(candidates[0].element.querySelector('h2'));
+const candidateSelection2 = new TextSelector2(candidatesView[0].element.querySelector('h2'));
 
