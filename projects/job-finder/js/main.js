@@ -92,6 +92,8 @@ class CandidateView {
     }
 
     setUnmatchedSkills(requiredSkills) {
+        this.resetUnmatchedSkills();
+        
         // Отримання навичок кандидата
         const candidateSkills = this.candidate.skills.map(skill => skill.tech);
 
@@ -106,6 +108,11 @@ class CandidateView {
             unmatchedSkillElement.classList.add('unmatched-skill'); // Додайте стилі для невідповідних навичок
             this.skillsElem.appendChild(unmatchedSkillElement);
         });
+    }
+
+    resetUnmatchedSkills() {
+        const unmatched = this.skillsElem.querySelectorAll(".unmatched-skill");
+        unmatched.forEach(el => el.remove());
     }
 }
 
