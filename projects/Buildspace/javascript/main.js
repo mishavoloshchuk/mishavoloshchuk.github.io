@@ -1,16 +1,19 @@
 var anim = {dblsctt: false, weOffer: false};
 document.onscroll = (e) => {
 	var elem = document.querySelector('.aboutNow');
-	var posY = (getCoords(elem).bottom+getCoords(elem).top)/2;
-	if (window.scrollY+window.innerHeight >= posY && window.scrollY <= posY && !anim.dblsctt){
-		anim.dblsctt = true;
+	if (elem) {
+		var posY = (getCoords(elem).bottom+getCoords(elem).top)/2;
+		if (window.scrollY+window.innerHeight >= posY && window.scrollY <= posY && !anim.dblsctt){
+			anim.dblsctt = true;
+		}
 	}
 	elem = document.querySelector('.serviceItem');
-	posY = (getCoords(elem).bottom+getCoords(elem).top)/2;
-	if (window.scrollY+window.innerHeight >= posY && window.scrollY <= posY && !anim.weOffer){
-		anim.weOffer = true;
+	if (elem) {
+		posY = (getCoords(elem).bottom+getCoords(elem).top)/2;
+		if (window.scrollY+window.innerHeight >= posY && window.scrollY <= posY && !anim.weOffer){
+			anim.weOffer = true;
+		}
 	}
-
 }
 
 function getCoords(elem) {
@@ -45,7 +48,7 @@ function frame(){
 }
 
 class AnimScroll {
-	static speed = 0.25;
+	static speed = 0.2;
 	
 	static posY;
 	static scrolling = false;
