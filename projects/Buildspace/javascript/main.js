@@ -2,12 +2,12 @@ var anim = {dblsctt: false, weOffer: false};
 document.onscroll = (e) => {
 	var elem = document.querySelector('.aboutNow');
 	var posY = (getCoords(elem).bottom+getCoords(elem).top)/2;
-	if (window.pageYOffset+window.innerHeight >= posY && window.pageYOffset <= posY && !anim.dblsctt){
+	if (window.scrollY+window.innerHeight >= posY && window.scrollY <= posY && !anim.dblsctt){
 		anim.dblsctt = true;
 	}
 	elem = document.querySelector('.serviceItem');
 	posY = (getCoords(elem).bottom+getCoords(elem).top)/2;
-	if (window.pageYOffset+window.innerHeight >= posY && window.pageYOffset <= posY && !anim.weOffer){
+	if (window.scrollY+window.innerHeight >= posY && window.scrollY <= posY && !anim.weOffer){
 		anim.weOffer = true;
 	}
 
@@ -16,11 +16,12 @@ document.onscroll = (e) => {
 function getCoords(elem) {
 	let box = elem.getBoundingClientRect();
 	return {
-		top: box.top + pageYOffset,
-		left: box.left + pageXOffset,
-		bottom: box.bottom + pageYOffset,
+		top: box.top + scrollY,
+		left: box.left + scrollX,
+		bottom: box.bottom + scrollY,
 	};
 }
+
 frame()
 function frame(){
 	window.requestAnimationFrame(frame);
@@ -41,11 +42,99 @@ function frame(){
 		}
 		
 	}
-	if (window.pageYOffset >= 100){
-		document.querySelector('.toUp').style.display = 'initial';
-		setTimeout(()=>{document.querySelector('.toUp').style.opacity = '0.8';}, 150);
-	} else {
-		document.querySelector('.toUp').style.opacity = '0';
-		setTimeout(()=>{document.querySelector('.toUp').style.display = 'none';}, 150);
+}
+
+class AnimScroll {
+	static speed = 0.25;
+	
+	static posY;
+	static scrolling = false;
+
+	static promiseResolve;
+	
+	static anim() {
+		window.requestAnimationFrame(this.anim.bind(this));
+		if (!this.scrolling) return;
+
+		const difference = Math.abs(this.posY - window.scrollY);
+		window.scrollTo(0, difference / (this.speed + 1));
+
+		// Finish scrolling
+		if (Math.abs(this.posY - window.scrollY) < 1) {
+			this.scrolling = false;
+			
+			this.promiseResolve();
+		};
+		
+	}
+
+	static scrollTo(posY = 0) {
+		this.scrolling = true;
+		this.posY = posY;
+		return new Promise((resolve) => {
+			this.promiseResolve = resolve;
+		});
+	}
+
+	static init() {
+		this.anim();
 	}
 }
+AnimScroll.init();
+
+class UpButton {
+	animDuration = 150;
+	BOUNDARY = 50;
+	prevScrollY = window.scrollY;
+	timeout;
+	showed = false;
+
+	constructor(element) {
+		this.element = element;
+		setInterval(this.checkDirection, 200);
+
+		element.addEventListener('click', e => {
+			AnimScroll.scrollTo(0)
+			.then(() => {
+				this.hide();
+				this.prevScrollY = 0;
+			})
+		});
+	}
+
+	checkDirection = () => {
+		if (this.prevScrollY - window.scrollY > this.BOUNDARY){
+			this.show();
+			this.prevScrollY = scrollY;
+		} else 
+		if (window.scrollY - this.prevScrollY > 0 || window.scrollY < this.BOUNDARY) {
+			this.hide();
+			this.prevScrollY = scrollY;
+		}
+	}
+
+	show() {
+		if (this.showed) return;
+		clearTimeout(this.timeout);
+		this.showed = true;
+
+		this.element.style.display = 'initial';
+		this.timeout = setTimeout(() => {
+			this.element.style.opacity = '0.8';
+		}, this.animDuration);
+	}
+
+	hide() {
+		if (!this.showed) return;
+		clearTimeout(this.timeout);
+		this.showed = false;
+
+		this.element.style.opacity = '0';
+		this.timeout = setTimeout(() => {
+			this.element.style.display = 'none';
+	}, this.animDuration);
+	}
+
+}
+
+const upBtn = new UpButton(document.querySelector('.toUp'));
