@@ -73,7 +73,7 @@ body {
 	border-left: 0 solid;
 	border-color: inherit;
 }
-.colZone:hover {
+.list:hover .colZone {
 	border-width: 1rem;
 }
 .colZone:active {
@@ -117,6 +117,7 @@ body {
 	-ms-user-select: none; /* Internet Explorer (не поддерживается) */
 	-o-user-select: none; /* Opera Presto (не поддерживается) */
 	-webkit-user-select: none; /* Google Chrome, Opera Next, Safari */
+	border: none;
 }
 .button:hover {
 	cursor: pointer;
