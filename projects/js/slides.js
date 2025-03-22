@@ -12,22 +12,22 @@ const slides = [
 	}, { 
 		name: "Deals Fest", 
 		color: "#2661A2",
-		link: "/#",
+		link: "./#",
         image: 'img/dealsFest.jpg',
 	}, { 
 		name: "Golden", 
 		color: "#F5CA46",
-		link: "/#",
+		link: "./#",
         image: 'img/golden.jpg',
 	}, { 
 		name: "Sushi Rolls", 
 		color: "#B844A9",
-		link: "/#",
+		link: "./#",
         image: 'img/sushiRolls.jpg',
 	}, { 
 		name: "Portfolio", 
 		color: "#66DDAA",
-		link: "/#",
+		link: "./#",
         image: 'img/portfolio.png',
 	}, { 
 		name: "Money Counter", 
