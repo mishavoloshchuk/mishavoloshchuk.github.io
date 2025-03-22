@@ -1,6 +1,8 @@
 import Particles from './Particles.js';
 import slides from './slides.js';
 
+generateSlides(slides);
+
 let gallerySlideNum = 0;
   
 let slidesAmount = document.getElementsByClassName('list').length;
@@ -12,34 +14,82 @@ for (let i = slidesAmount; i--;){
 }
 pointsControl();
 
+function generateSlides(slides) {
+	let slidesString = '';
+
+	for (let slide of slides) {
+		slidesString += getSlide(slide);
+	}
+
+	const container = document.getElementById('slidesContainer');
+	container.innerHTML = slidesString;
+}
+
+function getSlide(slide) {
+	return `
+		<div class="list" style="opacity: 0;">
+			<h1>${slide.name}</h1>
+			<div class="colZone">
+				<div class="colorGradient"></div>
+				<div class="backImg" style="background-image: url('${slide.image}');"></div>
+			</div>
+		</div>
+	`;
+}
+
 document.getElementsByClassName('list').onclick = function (e) {
 	urlPage();
 }
 document.querySelector('.gallery').onclick = function(e){
 	let butt = e.target.className.split(' ')[0];
-	let slidesCount = document.getElementsByClassName('list').length-1;
-	document.getElementsByClassName('list')[gallerySlideNum].style['z-index'] = -10;
-	if (butt == 'buttLeft') {
-		let prevSlide = gallerySlideNum - 1 < 0 ? slidesCount : gallerySlideNum - 1;
 
-		document.getElementsByClassName('list')[gallerySlideNum].style.animationName = 'hideRight';
-		document.getElementsByClassName('list')[prevSlide].style.animationName = 'showRight';
-
-		gallerySlideNum = gallerySlideNum > 0 ? gallerySlideNum-1 : slidesCount;
-	} else if (butt == 'buttRight') {
-		let nextSlide = gallerySlideNum + 1 > slidesCount ? 0 : gallerySlideNum + 1;
-
-		document.getElementsByClassName('list')[gallerySlideNum].style.animationName = 'hideLeft';
-		document.getElementsByClassName('list')[nextSlide].style.animationName = 'showLeft';
-
-		gallerySlideNum = gallerySlideNum < slidesCount ? gallerySlideNum+1 : 0;
+	let direction = 0;
+	if (butt === 'buttLeft') {
+		direction = -1;
+	} else if (butt === 'buttRight') {
+		direction = 1;
 	}
+	setSlide(gallerySlideNum + direction, direction);
+	
 	if (findParent(e.target, 'list')){
 		urlPage();
 	}
 	pointsControl();
 	setInterfaceCol(slides[gallerySlideNum].color);
-	document.getElementsByClassName('list')[gallerySlideNum].style['z-index'] = 1;
+}
+
+function setSlide(slideIndex) {
+	if (slideIndex == gallerySlideNum) return;
+	
+	const slidesCount = slides.length;
+	slideIndex = Math.abs((slideIndex + slidesCount) % slidesCount);
+	const direction = slideIndex > gallerySlideNum ? 1 : -1;
+
+	hideSlide(gallerySlideNum, direction);
+	showSlide(slideIndex, direction);
+
+	gallerySlideNum = slideIndex;
+}
+
+const slidesContainer = document.getElementById('slidesContainer');
+const slidesList = slidesContainer.children;
+
+showSlide(gallerySlideNum);
+
+function showSlide(index, direction = 1) {
+	slidesList[index].style.animationName = direction > 0
+		? 'showLeft'
+		: 'showRight';
+	
+	slidesList[index].style['z-index'] = 1;
+}
+
+function hideSlide(index, direction = 1) {
+	slidesList[index].style['z-index'] = -10;
+
+	slidesList[index].style.animationName = direction > 0
+		? 'hideLeft'
+		: 'hideRight';
 }
 
 document.addEventListener('keydown', function(e){

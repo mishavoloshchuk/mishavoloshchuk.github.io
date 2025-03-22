@@ -38,7 +38,7 @@ const slides = [
 		name: "Reaction Time Game", 
 		color: "#87F05D",
 		link: "Reaction-Time-Game/", 
-        image: 'img/reaction-time',
+        image: 'img/reaction-time-game.png',
 	}, { 
 		name: "Theremin", 
 		color: "#222222",
