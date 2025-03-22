@@ -62,8 +62,8 @@ function setSlide(slideIndex) {
 	if (slideIndex == gallerySlideNum) return;
 	
 	const slidesCount = slides.length;
-	slideIndex = Math.abs((slideIndex + slidesCount) % slidesCount);
 	const direction = slideIndex > gallerySlideNum ? 1 : -1;
+	slideIndex = Math.abs((slideIndex + slidesCount) % slidesCount);
 
 	hideSlide(gallerySlideNum, direction);
 	showSlide(slideIndex, direction);
