@@ -27,19 +27,16 @@ function generateSlides(slides) {
 
 function getSlide(slide) {
 	return `
-		<div class="list" style="opacity: 0;">
+		<a href="${slide.link}" class="list" style="opacity: 0;">
 			<h1>${slide.name}</h1>
 			<div class="colZone">
 				<div class="colorGradient"></div>
 				<div class="backImg" style="background-image: url('${slide.image}');"></div>
 			</div>
-		</div>
+		</a>
 	`;
 }
 
-document.getElementsByClassName('list').onclick = function (e) {
-	urlPage();
-}
 document.querySelector('.gallery').onclick = function(e){
 	let butt = e.target.className.split(' ')[0];
 
@@ -50,10 +47,7 @@ document.querySelector('.gallery').onclick = function(e){
 		direction = 1;
 	}
 	setSlide(gallerySlideNum + direction, direction);
-	
-	if (findParent(e.target, 'list')){
-		urlPage();
-	}
+
 	pointsControl();
 	setInterfaceCol(slides[gallerySlideNum].color);
 }
@@ -141,19 +135,6 @@ function pointsControl(){
 			pointsDOM[i].style.backgroundColor = 'inherit';
 		}
 	}
-}
-
-function urlPage(){
-	document.location.href = slides[gallerySlideNum].link;
-}
-
-function findParent(elem, name) {
-	let elem0 = elem;
-	if (elem.className == name){ return true; }
-	while (elem0 && elem0.parentNode && elem0.parentNode.className != name){
-		elem0 = elem0.parentNode;
-	}
-	return elem0 ? elem0.parentNode ? elem0.parentNode.className == name : false : undefined;
 }
 
 // Particles

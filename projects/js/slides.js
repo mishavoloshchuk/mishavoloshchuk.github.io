@@ -1,6 +1,6 @@
 const slides = [
 	{ 
-		name: "Orbit-Simulator", 
+		name: "Orbit Simulator", 
 		color: "#000000",
 		link: "Orbit-Simulator/",
         image: 'img/orbitSimulator.jpg',
