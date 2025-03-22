@@ -146,16 +146,23 @@ body {
 	display: inline-block;
 	border-color: black;
 	margin: 1rem;
+	cursor: default;
 }
 .point {
 	display: inline-block;
 	border: 2px solid;
 	border-radius: 100%;
 	border-color: white;
-	width: .5rem; height: .5rem;
+	width: 13px; 
+	height: 13px;
 	margin: 0 0.2rem;
 	flex-shrink: 0;
-	transition: 0.3s;
+	transition: background 0.3s;
+	padding: 0;
+	cursor: pointer;
+}
+.point:hover {
+	transform: scale(1.1);
 }
 .colorGradient {
 	position: absolute;

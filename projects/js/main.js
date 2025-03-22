@@ -4,14 +4,29 @@ import slides from './slides.js';
 generateSlides(slides);
 
 let gallerySlideNum = 0;
-  
-let slidesAmount = document.getElementsByClassName('list').length;
+
 setInterfaceCol(slides[gallerySlideNum].color);
 
 // Create gallery slide points
-for (let i = slidesAmount; i--;){
-	document.querySelector('.points').innerHTML += '<div class="point"></div>';
+const pointsContainer = document.querySelector('.points');
+for (let slide of slides){
+	pointsContainer.innerHTML += `
+		<button 
+			class="point" 
+			title="${slide.name}" 
+			style="border-color: color-mix(in srgb, white 50%, ${slide.color});"
+		></button>
+	`;
 }
+
+pointsContainer.addEventListener('click', (e) => {
+	const points = Array.from(pointsContainer.children);
+	const point = e.target.closest('.point');
+	if (!point) return;
+
+	setSlide(points.indexOf(point));
+})
+
 pointsControl();
 
 function generateSlides(slides) {
@@ -46,10 +61,7 @@ document.querySelector('.gallery').onclick = function(e){
 	} else if (butt === 'buttRight') {
 		direction = 1;
 	}
-	setSlide(gallerySlideNum + direction, direction);
-
-	pointsControl();
-	setInterfaceCol(slides[gallerySlideNum].color);
+	setSlide(gallerySlideNum + direction);
 }
 
 function setSlide(slideIndex) {
@@ -63,6 +75,9 @@ function setSlide(slideIndex) {
 	showSlide(slideIndex, direction);
 
 	gallerySlideNum = slideIndex;
+
+	pointsControl();
+	setInterfaceCol(slides[gallerySlideNum].color);
 }
 
 const slidesContainer = document.getElementById('slidesContainer');
