@@ -176,7 +176,7 @@ body {
 }
 .galleryStatusPoints {
 	text-align: center;
-	margin: 20px 0 20px 0;
+	margin: 60px 0 60px 0;
 }
 .points {
 	display: inline-block;
@@ -233,6 +233,9 @@ body {
 	}
 	.point {
 		margin: 0 0.5rem;
+	}
+	.galleryStatusPoints {
+		margin: 20px 0 20px 0;
 	}
 }
 @media screen and (min-width: 1024px) {
