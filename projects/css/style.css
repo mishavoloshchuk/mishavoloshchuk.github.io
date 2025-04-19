@@ -1,8 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Georama:wght@300&display=swap');
+* {
+	box-sizing: border-box;
+}
 body {
 	background-color: #333333;
 	padding: 0;
 	margin: 0;
+
+	--theme-color: black;
 }
 .canv {
 	width: 100%;
@@ -31,23 +36,32 @@ body {
 	height: 50vh;
 }
 .list {
+	--slide-color: black;
 	display: block;
-	background-color: rgba(0,0,0,0.2);
 	backdrop-filter: blur(5px);
-	/*background: linear-gradient(115deg, #ffffff 35%, #323232 35.3%);*/
 	width: 90%;
-	min-height: 40vh;
-	border-radius: 20px;
+	height: 100%;
 	transition: 0.2s;
 	overflow: hidden;
 	margin: 5px 0;
 	flex-shrink: 1;
 	position: absolute;
-	border-left: 0.5rem solid;
-	border-color: #000000;
+	border-radius: 20px;
+	border-style: solid;
+	border-width: 0;
+	border-left-width: 0.5rem;
+	border-color: var(--slide-color);
 	animation-duration: 0.4s;
 	animation-fill-mode: forwards;
 	z-index: -10;
+}
+.list::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background-color: var(--slide-color);
+	opacity: 0.2;
+	z-index: -2;
 }
 .list h1 {
 	position: absolute;
@@ -71,7 +85,9 @@ body {
 	transform: skew(25deg) translateX(25%);
 	transition: 0.3s;
 	border-left: 0 solid;
-	border-color: inherit;
+	border-color: var(--slide-color);
+	box-shadow: -2px 0 5vh var(--slide-color);
+	box-shadow: -2px 0 5vh color-mix(in srgb, var(--slide-color) 80%, transparent);
 }
 .list:hover .colZone {
 	border-width: 1rem;
@@ -83,6 +99,7 @@ body {
 .backImg {
 	background-image: url('../img/orbitSimulator.jpg');
 	background-size: cover;
+	background-position: center;
 	transform: skew(-25deg) translateX(-10%) scale(1.1);
 	opacity: 1;
 	position: absolute;
@@ -95,29 +112,29 @@ body {
 	animation-direction: alternate-reverse;
 }
 .button {
-	/*background-color: rgba(173,29,0,0.7);*/
-	/*border: 0.2rem solid rgba(173,29,0,0.7);*/
+	background-color: transparent;
 	backdrop-filter: blur(2px);
-	margin: 0; padding: 0;
+	position: relative;
+	overflow: hidden;
+	margin: 0; 
+	padding: 0;
 	width: 7vh;
 	height: 7vh;
 	border-radius: 100%;
 	margin: 5vh 0;
 	transition: 0.4s;
-	font-size: 2.5vh;
-	color: rgb(0,0,0);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-grow: 0;
 	flex-shrink: 0;
-	color: rgba(255,255,255,.7);
 	user-select: none;
 	-moz-user-select: none; /* Mozilla Firefox */
 	-ms-user-select: none; /* Internet Explorer (не поддерживается) */
 	-o-user-select: none; /* Opera Presto (не поддерживается) */
 	-webkit-user-select: none; /* Google Chrome, Opera Next, Safari */
-	border: none;
+	border-width: 0;
+	border-color: var(--theme-color);
 }
 .button:hover {
 	cursor: pointer;
@@ -127,9 +144,26 @@ body {
 	transition: 0.1s;
 	transform: scale(0.95);
 }
+.button::before {
+	transition: 0.4s;
+	content: '';
+	background-color: var(--theme-color);
+	opacity: 0.3;
+	position: absolute;
+	inset: 0;
+}
+
 .about {
 
 }
+
+.mobileButtons {
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+	width: 100%;
+}
+
 .innerAbout {
 	color: white;
 	text-align: center;
@@ -142,6 +176,7 @@ body {
 }
 .galleryStatusPoints {
 	text-align: center;
+	margin: 20px 0 20px 0;
 }
 .points {
 	display: inline-block;
@@ -170,7 +205,7 @@ body {
 	top: 0; bottom: 0; left: 0; right: 0;
 	z-index: 1;
 	opacity: 0.3;
-	background: linear-gradient(90deg, #4A4CA3 10%, rgba(0,0,0,0) 70%);
+	background: linear-gradient(90deg, var(--slide-color) 0%, rgba(0,0,0,0) 30%);
 }
 .screen {
 	display: flex;
@@ -179,6 +214,31 @@ body {
 	flex-direction: column;
 	width: 100wh;
 	height: 100svh;
+}
+
+@media screen and (max-width: 1024px) {
+	.show-lg {
+		display: none !important;
+	}
+	.backImg {
+		transform: skew(0deg, -25deg) translate(25%, 50%) scale(1.5) !important;
+	}
+	.colZone {
+		transform: skew(0deg, 25deg) translateY(-25%);
+	}
+	.list {
+		border-left-width: 0;
+		border-bottom-width: 0.5rem;
+		border-color: var(--slide-color);
+	}
+	.point {
+		margin: 0 0.5rem;
+	}
+}
+@media screen and (min-width: 1024px) {
+	.hide-lg {
+		display: none !important;
+	}
 }
 
 @keyframes pulse {

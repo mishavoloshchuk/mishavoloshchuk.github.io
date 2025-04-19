@@ -42,7 +42,7 @@ function generateSlides(slides) {
 
 function getSlide(slide) {
 	return `
-		<a href="${slide.link}" class="list" style="opacity: 0;">
+		<a href="${slide.link}" class="list" style="opacity: 0; --slide-color: ${slide.color};">
 			<h1>${slide.name}</h1>
 			<div class="colZone">
 				<div class="colorGradient"></div>
@@ -52,13 +52,19 @@ function getSlide(slide) {
 	`;
 }
 
-document.querySelector('.gallery').onclick = function(e){
-	let butt = e.target.className.split(' ')[0];
+document.querySelector('.gallery').addEventListener('click', onBtnBlockClick);
+document.querySelector('.mobileButtons').addEventListener('click', onBtnBlockClick);
+
+function onBtnBlockClick(e) {
+	let butt = e.target.closest('button');
+	if (!butt) return;
+	
+	const classList = butt.classList;
 
 	let direction = 0;
-	if (butt === 'buttLeft') {
+	if (classList.contains('buttLeft')) {
 		direction = -1;
-	} else if (butt === 'buttRight') {
+	} else if (classList.contains('buttRight')) {
 		direction = 1;
 	}
 	setSlide(gallerySlideNum + direction);
@@ -116,29 +122,7 @@ document.addEventListener('keydown', function(e){
 });
 
 function setInterfaceCol(hexColor){
-	let rgb = hexToRgb(hexColor);
-	let button = document.getElementsByClassName('button'),
-		list = document.getElementsByClassName('list');
-	document.querySelector('.colZone').style.borderColor = 'rgb('+rgb.join()+')';
-	list[gallerySlideNum].style.backgroundColor = 'rgba('+rgb.join()+',0.2)';
-	list[gallerySlideNum].style.borderColor = 'rgb('+rgb.join()+')';
-	list[gallerySlideNum].childNodes[3].childNodes[1].style.background = 'linear-gradient(90deg, '+hexColor+' 0%, rgba(0,0,0,0) 30%)';
-	list[gallerySlideNum].childNodes[3].style.boxShadow = '-2px 0 5vh ' + 'rgba('+rgb.join()+',0.8)';
-	button[0].style.backgroundColor = 'rgba('+rgb.join()+',0.2)';
-	button[0].style.borderColor = 'rgb('+rgb.join()+')';
-	//button[0].style.color = 'rgb('+rgb.join()+')';
-	button[1].style.backgroundColor = 'rgba('+rgb.join()+',0.2)';
-	button[1].style.borderColor = 'rgb('+rgb.join()+')';
-	//button[1].style.color = 'rgb('+rgb.join()+')';	
-}
-
-function hexToRgb(hex) {
-  let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? [
-    parseInt(result[1], 16),
-    parseInt(result[2], 16),
-    parseInt(result[3], 16)
-  ] : null;
+	document.body.style.setProperty('--theme-color', hexColor);
 }
 
 function pointsControl(){
